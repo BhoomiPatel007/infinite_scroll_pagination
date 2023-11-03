@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 typedef ItemWidgetBuilder<ItemType> = Widget Function(
   BuildContext context,
   ItemType item,
-  int index,
+  // int index,
 );
 
 /// Supplies builders for the visual components of paged views.

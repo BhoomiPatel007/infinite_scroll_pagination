@@ -43,7 +43,7 @@ class _BeerMasonryGridState extends State<BeerMasonryGrid> {
   Widget build(BuildContext context) => PagedMasonryGridView.count(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
-          itemBuilder: (context, item, index) => CachedNetworkImage(
+          itemBuilder: (context, item) => CachedNetworkImage(
             imageUrl: item.imageUrl,
           ),
         ),

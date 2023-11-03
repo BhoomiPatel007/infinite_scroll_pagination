@@ -1,5 +1,7 @@
 export 'src/core/paged_child_builder_delegate.dart';
 export 'src/core/paging_controller.dart';
+export 'src/custom_pagination.dart';
+export 'src/list_view_style.dart';
 export 'src/model/paging_state.dart';
 export 'src/model/paging_status.dart';
 export 'src/widgets/helpers/paged_layout_builder.dart';

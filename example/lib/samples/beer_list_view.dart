@@ -6,59 +6,69 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class BeerListView extends StatefulWidget {
   @override
-  _BeerListViewState createState() => _BeerListViewState();
+  BeerListViewState createState() => BeerListViewState();
 }
 
-class _BeerListViewState extends State<BeerListView> {
-  static const _pageSize = 20;
+class BeerListViewState extends State<BeerListView> {
+  static const pageSize = 20;
 
-  final PagingController<int, BeerSummary> _pagingController =
+  final PagingController<int, BeerSummary> pagingController =
       PagingController(firstPageKey: 1);
 
   @override
   void initState() {
-    _pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey);
+    pagingController.addPageRequestListener((pageKey) {
+      fetchPage(pageKey);
     });
     super.initState();
   }
 
-  Future<void> _fetchPage(int pageKey) async {
+  Future<void> fetchPage(int pageKey) async {
     try {
-      final newItems = await RemoteApi.getBeerList(pageKey, _pageSize);
+      final newItems = await RemoteApi.getBeerList(pageKey, pageSize);
 
-      final isLastPage = newItems.length < _pageSize;
+      final isLastPage = newItems.length < pageSize;
       if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
+        pagingController.appendLastPage(newItems);
       } else {
         final nextPageKey = pageKey + 1;
-        _pagingController.appendPage(newItems, nextPageKey);
+        pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      pagingController.error = error;
     }
   }
 
   @override
-  Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: () => Future.sync(
-          () => _pagingController.refresh(),
-        ),
-        child: PagedListView<int, BeerSummary>.separated(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
-            animateTransitions: true,
-            itemBuilder: (context, item, index) => BeerListItem(
-              beer: item,
-            ),
+  Widget build(BuildContext context) =>
+      // CustomScrollPagination<int, BeerSummary>(
+      //   pagingController: pagingController,
+      //   itemBuilder: (context, item) => BeerListItem(
+      //     beer: item,
+      //   ),
+      //   separatorBuilder: (context, index) => const Divider(
+      //     color: Colors.red,
+      //     height: 2.5,
+      //   ),
+      //   needRefreshIndicator: true,
+      //   onRefresh: () => Future.sync(() => pagingController.refresh()),
+      // ).listViewWithoutSeparator();
+
+      ListViewWithoutSeparator<int, BeerSummary>(
+        listStyle: ListViewWithoutSeparatorStyle<BeerSummary>(
+          pagingController: pagingController,
+          itemBuilder: (context, item) => BeerListItem(
+            beer: item,
           ),
-          separatorBuilder: (context, index) => const Divider(),
+          onPageRefresh: () => Future.sync(
+            () => pagingController.refresh(),
+          ),
         ),
       );
 
   @override
   void dispose() {
-    _pagingController.dispose();
+    pagingController.dispose();
     super.dispose();
   }
 }

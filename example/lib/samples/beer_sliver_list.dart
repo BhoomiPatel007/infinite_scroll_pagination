@@ -73,7 +73,7 @@ class _BeerSliverListState extends State<BeerSliverList> {
             pagingController: _pagingController,
             builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
               animateTransitions: true,
-              itemBuilder: (context, item, index) => BeerListItem(
+              itemBuilder: (context, item) => BeerListItem(
                 beer: item,
               ),
             ),

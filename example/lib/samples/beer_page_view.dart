@@ -45,7 +45,7 @@ class _BeerPageViewState extends State<BeerPageView> {
   Widget build(BuildContext context) => PagedPageView<int, BeerSummary>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate<BeerSummary>(
-          itemBuilder: (context, item, index) => CachedNetworkImage(
+          itemBuilder: (context, item) => CachedNetworkImage(
             imageUrl: item.imageUrl,
           ),
         ),

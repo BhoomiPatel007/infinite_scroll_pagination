@@ -276,7 +276,7 @@ class _PagedLayoutBuilderState<PageKeyType, ItemType>
     }
 
     final item = itemList[index];
-    return _builderDelegate.itemBuilder(context, item, index);
+    return _builderDelegate.itemBuilder(context, item);
   }
 }
 
